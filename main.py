@@ -68,7 +68,7 @@ def create_middle_frame():
         borrow_window.title("BORROW BOOK Window")
         borrow_window.geometry('800x400')
         borrow_window.configure(bg='#333333')
-        label_borrow = Label(borrow_window, text="BORROW BOOK Window", bg='#333333', fg='white',font=("Arial", 16, "bold"))
+        label_borrow = Label(borrow_window, text="BORROW BOOK Window", bg='#333333', fg='white', font=("Arial", 16, "bold"))
         label_borrow.pack(expand=True)
 
         # Create title for literature type selection
