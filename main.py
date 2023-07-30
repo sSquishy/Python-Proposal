@@ -73,8 +73,7 @@ def create_middle_frame():
         label_borrow.pack(expand=True)
 
         # Create title for literature type selection
-        literature_type_title = Label(borrow_window, text="Select Type of Literature", bg='#333333', fg='white',
-                                      font=("Arial", 12, "bold"))
+        literature_type_title = Label(borrow_window, text="Select Type of Literature", bg='#333333', fg='white', font=("Arial", 12, "bold"))
         literature_type_title.pack(anchor="w", padx=10, pady=5)
 
         # Create radio buttons for literature type selection
