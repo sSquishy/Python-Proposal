@@ -79,8 +79,7 @@ def create_middle_frame():
         # Create radio buttons for literature type selection
         literature_type_var = StringVar()
         literature_type_var.set("ISBN")  # Set the default selection
-        isbn_radio = Radiobutton(borrow_window, text="ISBN", variable=literature_type_var, value="ISBN", bg='#333333',
-                                 fg='white', font=("Arial", 12, "bold"), activebackground='#444444', selectcolor='red')
+        isbn_radio = Radiobutton(borrow_window, text="ISBN", variable=literature_type_var, value="ISBN", bg='#333333', fg='white', font=("Arial", 12, "bold"), activebackground='#444444', selectcolor='red')
         isbn_radio.pack(anchor="w", padx=10, pady=2)
         issn_radio = Radiobutton(borrow_window, text="ISSN", variable=literature_type_var, value="ISSN", bg='#333333',
                                  fg='white', font=("Arial", 12, "bold"), activebackground='#444444', selectcolor='red')
