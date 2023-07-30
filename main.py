@@ -92,8 +92,7 @@ def create_middle_frame():
         input_title.grid(row=0, columnspan=2, padx=10, pady=5)
 
         # Labels and Entry widgets for ISBN/ISSN Id and Book ID
-        isbn_issn_id_label = Label(input_frame, text="ISBN/ISSN ID:", bg='#333333', fg='white',
-                                   font=("Arial", 12, "bold"))
+        isbn_issn_id_label = Label(input_frame, text="ISBN/ISSN ID:", bg='#333333', fg='white', font=("Arial", 12, "bold"))
         isbn_issn_id_label.grid(row=1, column=0, padx=5, pady=5)
         isbn_issn_id_entry = Entry(input_frame, bg='white', fg='black', font=("Arial", 12))
         isbn_issn_id_entry.grid(row=1, column=1, padx=5, pady=5)
