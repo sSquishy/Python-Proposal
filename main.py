@@ -107,8 +107,7 @@ def create_middle_frame():
         borrow_button.pack(pady=10)
 
         # Create the "BACK" button to go back to the student window
-        back_button = Button(borrow_window, text="BACK", bg='red', fg='#FFFFFF', font=("Arial", 16, "bold"), width=20,
-                             height=2, command=lambda: close_windows(borrow_window, student_window))
+        back_button = Button(borrow_window, text="BACK", bg='red', fg='#FFFFFF', font=("Arial", 16, "bold"), width=20, height=2, command=lambda: close_windows(borrow_window, student_window))
         back_button.pack()
 
         borrow_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(borrow_window, student_window))
