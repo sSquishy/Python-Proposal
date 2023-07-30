@@ -43,13 +43,80 @@ def create_middle_frame():
         student_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(student_window))
 
     def open_borrow_window():
+        def process_borrow():
+            # Function to process the borrow action based on the selected literature type
+            selected_type = literature_type_var.get()
+            isbn_issn_id = isbn_issn_id_entry.get()
+            book_id = book_id_entry.get()
+
+            if selected_type == "ISBN":
+                # Process borrow with ISBN
+                print("Borrowing with ISBN")
+                print("ISBN/ISSN Id:", isbn_issn_id)
+                print("Book ID:", book_id)
+            elif selected_type == "ISSN":
+                # Process borrow with ISSN
+                print("Borrowing with ISSN")
+                print("ISBN/ISSN Id:", isbn_issn_id)
+                print("Book ID:", book_id)
+            else:
+                # Handle the case when no literature type is selected
+                print("Please select a literature type.")
+
         student_window.withdraw()
         borrow_window = Toplevel(student_window)
         borrow_window.title("BORROW BOOK Window")
         borrow_window.geometry('800x400')
         borrow_window.configure(bg='#333333')
-        label_borrow = Label(borrow_window, text="BORROW BOOK Window", bg='#333333', fg='white', font=("Arial", 16, "bold"))
+        label_borrow = Label(borrow_window, text="BORROW BOOK Window", bg='#333333', fg='white',
+                             font=("Arial", 16, "bold"))
         label_borrow.pack(expand=True)
+
+        # Create title for literature type selection
+        literature_type_title = Label(borrow_window, text="Select Type of Literature", bg='#333333', fg='white',
+                                      font=("Arial", 12, "bold"))
+        literature_type_title.pack(anchor="w", padx=10, pady=5)
+
+        # Create radio buttons for literature type selection
+        literature_type_var = StringVar()
+        literature_type_var.set("ISBN")  # Set the default selection
+        isbn_radio = Radiobutton(borrow_window, text="ISBN", variable=literature_type_var, value="ISBN", bg='#333333',
+                                 fg='white', font=("Arial", 12, "bold"), activebackground='#444444', selectcolor='red')
+        isbn_radio.pack(anchor="w", padx=10, pady=2)
+        issn_radio = Radiobutton(borrow_window, text="ISSN", variable=literature_type_var, value="ISSN", bg='#333333',
+                                 fg='white', font=("Arial", 12, "bold"), activebackground='#444444', selectcolor='red')
+        issn_radio.pack(anchor="w", padx=10, pady=2)
+
+        # Frame for inputting ISBN/ISSN Id and Book ID
+        input_frame = Frame(borrow_window, bg='#333333')
+        input_frame.pack(pady=20)
+
+        # Create title for input section
+        input_title = Label(input_frame, text="Input ID", bg='#333333', fg='white', font=("Arial", 12, "bold"))
+        input_title.grid(row=0, columnspan=2, padx=10, pady=5)
+
+        # Labels and Entry widgets for ISBN/ISSN Id and Book ID
+        isbn_issn_id_label = Label(input_frame, text="ISBN/ISSN ID:", bg='#333333', fg='white',
+                                   font=("Arial", 12, "bold"))
+        isbn_issn_id_label.grid(row=1, column=0, padx=5, pady=5)
+        isbn_issn_id_entry = Entry(input_frame, bg='white', fg='black', font=("Arial", 12))
+        isbn_issn_id_entry.grid(row=1, column=1, padx=5, pady=5)
+
+        book_id_label = Label(input_frame, text="Book ID:", bg='#333333', fg='white', font=("Arial", 12, "bold"))
+        book_id_label.grid(row=2, column=0, padx=5, pady=5)
+        book_id_entry = Entry(input_frame, bg='white', fg='black', font=("Arial", 12))
+        book_id_entry.grid(row=2, column=1, padx=5, pady=5)
+
+        # Create the "BORROW" button to process the borrow action
+        borrow_button = Button(borrow_window, text="BORROW", bg='red', fg='#FFFFFF', font=("Arial", 16, "bold"),
+                               width=20, height=2, command=process_borrow)
+        borrow_button.pack(pady=10)
+
+        # Create the "BACK" button to go back to the student window
+        back_button = Button(borrow_window, text="BACK", bg='red', fg='#FFFFFF', font=("Arial", 16, "bold"), width=20,
+                             height=2, command=lambda: close_windows(borrow_window, student_window))
+        back_button.pack()
+
         borrow_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(borrow_window, student_window))
 
     def open_return_window():
@@ -61,6 +128,7 @@ def create_middle_frame():
         label_return = Label(return_window, text="RETURN BOOK Window", bg='#333333', fg='white', font=("Arial", 16, "bold"))
         label_return.pack(expand=True)
         return_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(return_window, student_window))
+
 
     def close_windows(new_window, prev_window=None):
         new_window.destroy()
