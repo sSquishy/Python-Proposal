@@ -103,8 +103,7 @@ def create_middle_frame():
         book_id_entry.grid(row=2, column=1, padx=5, pady=5)
 
         # Create the "BORROW" button to process the borrow action
-        borrow_button = Button(borrow_window, text="BORROW", bg='red', fg='#FFFFFF', font=("Arial", 16, "bold"),
-                               width=20, height=2, command=process_borrow)
+        borrow_button = Button(borrow_window, text="BORROW", bg='red', fg='#FFFFFF', font=("Arial", 16, "bold"), width=20, height=2, command=process_borrow)
         borrow_button.pack(pady=10)
 
         # Create the "BACK" button to go back to the student window
