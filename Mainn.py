@@ -200,7 +200,6 @@ def create_middle_frame():
 
         add_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(add_window))
 
-
     def remove_literature_window():
         admin_window.withdraw()  # Hide the current window
         remove_window = Toplevel()
