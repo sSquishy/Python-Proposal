@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+import sqlite3
 
 def create_middle_frame():
     def open_student_window():
@@ -61,18 +62,47 @@ def create_middle_frame():
             prev_window.deiconify()
 
     def open_borrow_window():
-        def add_to_list():
-            global checkout_list
+        def update_database(selected_type, isbn_issn_id, book_id):
+            try:
+                conn = sqlite3.connect('sample.db')
+                cursor = conn.cursor()
 
+                # Check if the given book exists and has available copies
+                cursor.execute("SELECT Copies FROM BookID WHERE BookID = ? AND [Literature type] = ? AND ID = ?",
+                               (book_id, selected_type, isbn_issn_id))
+                result = cursor.fetchone()
+
+                if result:
+                    copies = result[0]
+                    if copies > 0:
+                        # If there are available copies, reduce the count by one and update the database
+                        new_copies = copies - 1
+                        cursor.execute(
+                            "UPDATE BookID SET Copies = ? WHERE BookID = ? AND [Literature type] = ? AND ID = ?",
+                            (new_copies, book_id, selected_type, isbn_issn_id))
+                        conn.commit()
+                        messagebox.showinfo("Success", "Book has been successfully registered as borrowed!")
+                    else:
+                        # If no available copies, show a message
+                        messagebox.showinfo("Out of Stock", "Out of Stock")
+                else:
+                    # If the book is not found, show an error message
+                    messagebox.showerror("Error", "Book not found.")
+
+                cursor.close()
+                conn.close()
+            except Exception as e:
+                print("Error:", str(e))
+                messagebox.showerror("Error", "An error occurred. Please try again.")
+
+        def process_borrow():
             selected_type = literature_type_var.get()
             isbn_issn_id = isbn_issn_id_entry.get()
             book_id = book_id_entry.get()
 
             if selected_type and isbn_issn_id and book_id:
-                # Add the item to the checkout list
-                item = f"{selected_type} - ISBN/ISSN ID: {isbn_issn_id}, Book ID: {book_id}"
-                checkout_list.append(item)
-                messagebox.showinfo("Success", "Item added to the list for checkout.")
+                # Add the item to the checkout list and update the database
+                update_database(selected_type, isbn_issn_id, book_id)
 
                 # Clear the input fields for the next item
                 literature_type_var.set("ISBN")  # Reset the radio button selection
@@ -81,13 +111,6 @@ def create_middle_frame():
             else:
                 # Show an error message if any field is empty
                 messagebox.showerror("Error", "Please fill in all the fields.")
-
-        def process_borrow():
-            global checkout_list
-            if not checkout_list:
-                # Show an error message if the list is empty
-                messagebox.showerror("Error", "Please add items to the list for checkout.")
-                return
 
             # Create a receipt window
             receipt_window = Toplevel(borrow_window)
@@ -313,6 +336,51 @@ def create_middle_frame():
             return_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(return_window, student_window))
 
     def open_return_window():
+        def update_database(selected_type, isbn_issn_id, book_id):
+            try:
+                conn = sqlite3.connect('sample.db')
+                cursor = conn.cursor()
+
+                # Check if the given book exists in the database
+                cursor.execute("SELECT Copies FROM BookID WHERE BookID = ? AND [Literature type] = ? AND ID = ?",
+                               (book_id, selected_type, isbn_issn_id))
+                result = cursor.fetchone()
+
+                if result:
+                    copies = result[0]
+                    # Increase the count by one and update the database
+                    new_copies = copies + 1
+                    cursor.execute("UPDATE BookID SET Copies = ? WHERE BookID = ? AND [Literature type] = ? AND ID = ?",
+                                   (new_copies, book_id, selected_type, isbn_issn_id))
+                    conn.commit()
+                    messagebox.showinfo("Success", "Book has been successfully registered as returned!")
+                else:
+                    # If the book is not found, show an error message
+                    messagebox.showerror("Error", "Book not found.")
+
+                cursor.close()
+                conn.close()
+            except Exception as e:
+                print("Error:", str(e))
+                messagebox.showerror("Error", "An error occurred. Please try again.")
+
+        def process_return():
+            selected_type = literature_type_var.get()
+            isbn_issn_id = isbn_issn_id_entry.get()
+            book_id = book_id_entry.get()
+
+            if selected_type and isbn_issn_id and book_id:
+                # Update the item's information in the database
+                update_database(selected_type, isbn_issn_id, book_id)
+
+                # Clear the input fields for the next item
+                literature_type_var.set("ISBN")  # Reset the radio button selection
+                isbn_issn_id_entry.delete(0, 'end')  # Clear the ISBN/ISSN ID Entry
+                book_id_entry.delete(0, 'end')  # Clear the Book ID Entry
+            else:
+                # Show an error message if any field is empty
+                messagebox.showerror("Error", "Please fill in all the fields.")
+
         student_window.withdraw()  # Hide the student_window
         return_window = Toplevel(student_window)
         return_window.title("RETURN BOOK Window")
@@ -391,6 +459,7 @@ def create_middle_frame():
         # Create the "CONFIRM" button to process the return action
         confirm_button = Button(input_frame,
                                 text="CONFIRM",
+                                command=process_return,
                                 bg='red',
                                 fg='#FFFFFF',
                                 font=("Arial", 12),
