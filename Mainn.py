@@ -38,7 +38,8 @@ def create_middle_frame():
                                  fg='White',
                                  font=("Arial", 16, "bold"),
                                  width=20,
-                                 height=2)
+                                 height=2,
+                                 command = remove_literature_window)
         REMOVELITbutton.pack(pady=10)
 
         EXITLITbutton = Button(button_frame,
@@ -47,8 +48,7 @@ def create_middle_frame():
                                fg = 'white',
                                font = ("Arial", 16, "bold"),
                                width = 20,
-                               height = 2,
-                               command = open_remove_literature_window)
+                               height = 2)
         EXITLITbutton.pack(pady=10)
 
         admin_window.protocol('WM_DELETE_WINDOW', close_admin_window)
@@ -59,137 +59,143 @@ def create_middle_frame():
         add_window.geometry('500x800')
         add_window.configure(bg='#333333')
 
-
         # Create a frame for literature type selection
-        literature_type_frame = Frame(add_window, bg='#333333', highlightbackground="white",
-                            highlightthickness=2, )
-        literature_type_frame.pack()
+        literature_type_frame = Frame(add_window, bg='#333333', highlightbackground="white", highlightthickness=2)
+        literature_type_frame.pack(pady=20, padx=20)
 
         # Create title for literature type selection
-        literature_type_title = Label(literature_type_frame, text="Select Type of Literature",
-                                      bg='#333333',
-                                      fg='white',
-                                      font=("Arial", 12, "bold"))
+        literature_type_title = Label(literature_type_frame, text="Select Type of Literature", bg='#333333',
+                                      fg='white', font=("Arial", 12, "bold"))
         literature_type_title.pack(anchor="w")
 
         # Create radio buttons for literature type selection
         literature_type_var = StringVar()
-        isbn_radio = Radiobutton(literature_type_frame,
-                                 text="ISBN",
-                                 variable=literature_type_var,
-                                 value="ISBN",
-                                 bg='#333333',
-                                 fg='white',
-                                 font=("Arial", 12, "bold"),
-                                 activebackground='#444444',
+        isbn_radio = Radiobutton(literature_type_frame, text="ISBN", variable=literature_type_var, value="ISBN",
+                                 bg='#333333', fg='white', font=("Arial", 12, "bold"), activebackground='#444444',
                                  selectcolor='red')
-        isbn_radio.pack(anchor="w", pady=2)
-        issn_radio = Radiobutton(literature_type_frame,
-                                 text="ISSN",
-                                 variable=literature_type_var,
-                                 value="ISSN",
-                                 bg='#333333',
-                                 fg='white',
-                                 font=("Arial", 12, "bold"),
-                                 activebackground='#444444',
+        isbn_radio.pack(anchor="w", pady=5)
+        issn_radio = Radiobutton(literature_type_frame, text="ISSN", variable=literature_type_var, value="ISSN",
+                                 bg='#333333', fg='white', font=("Arial", 12, "bold"), activebackground='#444444',
                                  selectcolor='red')
-        issn_radio.pack(anchor="w", pady=2)
+        issn_radio.pack(anchor="w", pady=5)
 
-        # Create a frame for text fields
-        text_fields_frame = Frame(add_window,
-                                  bg = '#333333',
-                                  highlightbackground = "white",
-                                  highlightthickness=2)
-        text_fields_frame.pack()
-
+        # Frame for inputting text fields
+        text_fields_frame = Frame(add_window, bg='#333333', highlightbackground="white", highlightthickness=2)
+        text_fields_frame.pack(pady=20, padx=20)
 
         # Labels and Entry widgets for input details
         input_labels = ["Input Book ID Type:", "Input Title:", "Input Date:", "Input Copies:"]
         for i, label_text in enumerate(input_labels):
-            label = Label(text_fields_frame,
-                          text=label_text,
-                          bg='#333333',
-                          fg='white',
-                          font=("Arial", 12))
+            label = Label(text_fields_frame, text=label_text, bg='#333333', fg='white', font=("Arial", 12))
             label.grid(row=i, column=0, sticky='w', padx=5, pady=5)
 
             text_entry = Entry(text_fields_frame, font=("Arial", 12), bg='white', fg='black')
             text_entry.grid(row=i, column=1, padx=5, pady=5, sticky='we')
             text_entry.config(state='normal')
 
+        # Create a frame for author info and buttons
+        author_frame = Frame(add_window, bg='#333333', highlightbackground="white", highlightthickness=2)
+        author_frame.pack(pady=20, padx=20)
 
-        # Create a frame for text fields
-        AuthorFrame = Frame(add_window, bg='#333333', highlightbackground="white",
-                            highlightthickness=2)
-        AuthorFrame.pack()
-
-        author_type_title = Label(AuthorFrame, text="Author Info:",
-                                      bg='#333333',
-                                      fg='white',
-                                      font=("Arial", 12, "bold"))
-        author_type_title.pack(anchor="w")
+        author_type_title = Label(author_frame, text="Author Info:", bg='#333333', fg='white',
+                                  font=("Arial", 12, "bold"))
+        author_type_title.pack(anchor="w", pady=5)
 
         # Create radio buttons for author gender selection
         Author_gender = StringVar()
-        male_radio = Radiobutton(AuthorFrame,
-                                 text = "Male",
-                                 variable = Author_gender,
-                                 value = "Male",
-                                 bg = '#333333',
-                                 fg = 'white',
-                                 font = ("Arial", 12, "bold"),
-                                 activebackground = '#444444',
-                                 selectcolor = 'red')
+        male_radio = Radiobutton(author_frame, text="Male", variable=Author_gender, value="Male",
+                                 bg='#333333', fg='white', font=("Arial", 12, "bold"), activebackground='#444444',
+                                 selectcolor='red')
         male_radio.pack(anchor="w", pady=2)
-        female_radio = Radiobutton(AuthorFrame,
-                                   text = "Female",
-                                   variable = Author_gender,
-                                   value = "Female",
-                                   bg = '#333333',
-                                   fg = 'white',
-                                   font = ("Arial", 12, "bold"),
-                                   activebackground = '#444444',
-                                   selectcolor = 'red')
+        female_radio = Radiobutton(author_frame, text="Female", variable=Author_gender, value="Female",
+                                   bg='#333333', fg='white', font=("Arial", 12, "bold"), activebackground='#444444',
+                                   selectcolor='red')
         female_radio.pack(anchor="w", pady=2)
-        unspecified_radio = Radiobutton(AuthorFrame,
-                                    text = "Unspecified",
-                                    variable = Author_gender,
-                                    value = "Unspecified",
-                                    bg = '#333333',
-                                    fg = 'white',
-                                    font = ("Arial", 12, "bold"),
-                                    activebackground = '#444444',
-                                    selectcolor = 'red')
+        unspecified_radio = Radiobutton(author_frame, text="Unspecified", variable=Author_gender, value="Unspecified",
+                                        bg='#333333', fg='white', font=("Arial", 12, "bold"),
+                                        activebackground='#444444',
+                                        selectcolor='red')
         unspecified_radio.pack(anchor="w", pady=2)
 
         # Text fields for first name and last name
-        first_name_label = Label(AuthorFrame, text="First Name:", bg='#333333', fg='white', font=("Arial", 12))
+        first_name_label = Label(author_frame, text="First Name:", bg='#333333', fg='white', font=("Arial", 12))
         first_name_label.pack(anchor="w", pady=5)
-        first_name_entry = Entry(AuthorFrame, font=("Arial", 12), bg='white', fg='black')
+        first_name_entry = Entry(author_frame, font=("Arial", 12), bg='white', fg='black')
         first_name_entry.pack(anchor="w", pady=5)
 
-        last_name_label = Label(AuthorFrame, text="Last Name:", bg='#333333', fg='white', font=("Arial", 12))
+        last_name_label = Label(author_frame, text="Last Name:", bg='#333333', fg='white', font=("Arial", 12))
         last_name_label.pack(anchor="w", pady=5)
-        last_name_entry = Entry(AuthorFrame, font=("Arial", 12), bg='white', fg='black')
+        last_name_entry = Entry(author_frame, font=("Arial", 12), bg='white', fg='black')
         last_name_entry.pack(anchor="w", pady=5)
 
         # Confirm button
-        confirm_button = Button(AuthorFrame, text="Confirm", bg='red', fg='#FFFFFF', font=("Arial", 12),
+        confirm_button = Button(author_frame, text="Confirm", bg='red', fg='#FFFFFF', font=("Arial", 12),
                                 width=10, height=1)
         confirm_button.pack(anchor="e", padx=5, pady=10)
 
         add_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(add_window))
 
-
-    def open_remove_literature_window():
+    def remove_literature_window():
         admin_window.withdraw()  # Hide the current window
         remove_window = Toplevel()
         remove_window.title("Remove Literature Window")
-        admin_window.geometry('1000x600')
+        remove_window.geometry('500x700')
         remove_window.configure(bg='#333333')
 
-        # Add your code for the Remove Literature Window here...
-        # Don't forget to handle closing this window and restoring the admin_window when necessary.
+        # Create a frame for literature type selection
+        literature_type_frame = Frame(remove_window, bg='#333333', highlightbackground="white", highlightthickness=2)
+        literature_type_frame.pack(pady=50, anchor="center")
+
+        # Create title for literature type selection
+        literature_type_title = Label(literature_type_frame, text="Select Type of Literature", bg='#333333',
+                                      fg='white', font=("Arial", 12, "bold"))
+        literature_type_title.pack()
+
+        # Create radio buttons for literature type selection
+        literature_type_var = StringVar()
+        isbn_radio = Radiobutton(literature_type_frame, text="ISBN", variable=literature_type_var, value="ISBN",
+                                 bg='#333333', fg='white', font=("Arial", 12, "bold"), activebackground='#444444',
+                                 selectcolor='red')
+        isbn_radio.pack(anchor="w", pady=2)
+        issn_radio = Radiobutton(literature_type_frame, text="ISSN", variable=literature_type_var, value="ISSN",
+                                 bg='#333333', fg='white', font=("Arial", 12, "bold"), activebackground='#444444',
+                                 selectcolor='red')
+        issn_radio.pack(anchor="w", pady=2)
+
+        # Frame for inputting book ID, ISBN/ISSN, and Title/Published data
+        input_frame = Frame(remove_window, bg='#333333', highlightbackground="white", highlightthickness=2)
+        input_frame.pack(pady=10, padx=10, anchor="center")
+
+        # Create title for input section
+        input_title = Label(input_frame, text="Input Details", bg='#333333', fg='white', font=("Arial", 18))
+        input_title.grid(row=0, columnspan=2, padx=10, pady=5)
+
+        # Labels and Entry widgets for input details
+        input_labels = ["Book ID:", "ISBN/ISSN:", "Title/Published Data:"]
+        for i, label_text in enumerate(input_labels):
+            label = Label(input_frame, text=label_text, bg='#333333', fg='white', font=("Arial", 12))
+            label.grid(row=i + 1, column=0, sticky='w', padx=5, pady=5)
+
+            text_entry = Entry(input_frame, font=("Arial", 12), bg='white', fg='black')
+            text_entry.grid(row=i + 1, column=1, padx=5, pady=5, sticky='we')
+            text_entry.config(state='normal')
+
+        # Create a frame for buttons
+        button_frame = Frame(remove_window, bg='#333333')
+        button_frame.pack(pady=20)
+
+        # Create the "Remove Literature" button
+        remove_button = Button(button_frame, text="Remove Literature", bg='red', fg='#FFFFFF', font=("Arial", 12),
+                               width=20, height=2)
+        remove_button.pack(side='left', padx=10)
+
+        # Create the "EXIT" button to close the window
+        exit_button = Button(button_frame, text="EXIT", bg='red', fg='#FFFFFF', font=("Arial", 12), width=20, height=2,
+                             command=lambda: close_windows(remove_window, admin_window))
+        exit_button.pack(side='right', padx=10)
+
+        # Close the remove_window and show the admin_window when the remove_window is closed
+        remove_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(remove_window, admin_window))
 
     def open_student_window():
         global student_window
@@ -283,12 +289,7 @@ def create_middle_frame():
                                   font=("Arial", 16, "bold"))
             receipt_label.pack()
 
-
-
-
-
-
-
+        student_window.withdraw()  # Hide the student_window
         borrow_window = Toplevel(student_window)
         borrow_window.title("BORROW BOOK Window")
         borrow_window.geometry('500x600')
@@ -412,6 +413,7 @@ def create_middle_frame():
         borrow_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(borrow_window, student_window))
 
     def open_return_window():
+        student_window.withdraw()  # Hide the student_window
         return_window = Toplevel(student_window)
         return_window.title("RETURN BOOK Window")
         return_window.geometry('500x800')
@@ -421,14 +423,91 @@ def create_middle_frame():
                              bg='#333333',
                              fg='white',
                              font=("Arial", 16, "bold"))
-        label_return.pack(expand=True)
+        label_return.pack()
+
+        # Frame for selecting type of literature
+        literature_type_frame = Frame(return_window, bg='#333333', highlightbackground="white",
+                                      highlightthickness=2)
+        literature_type_frame.pack(pady=20)
+
+        # Create title for literature type selection
+        literature_type_title = Label(literature_type_frame, text="Select Type of Literature",
+                                      bg='#333333',
+                                      fg='white',
+                                      font=("Arial", 12, "bold"))
+        literature_type_title.pack(anchor="w")
+
+        # Create radio buttons for literature type selection
+        literature_type_var = StringVar()
+        isbn_radio = Radiobutton(literature_type_frame,
+                                 text="ISBN",
+                                 variable=literature_type_var,
+                                 value="ISBN",
+                                 bg='#333333',
+                                 fg='white',
+                                 font=("Arial", 12, "bold"),
+                                 activebackground='#444444',
+                                 selectcolor='red')
+        isbn_radio.pack(anchor="w", pady=2)
+        issn_radio = Radiobutton(literature_type_frame,
+                                 text="ISSN",
+                                 variable=literature_type_var,
+                                 value="ISSN",
+                                 bg='#333333',
+                                 fg='white',
+                                 font=("Arial", 12, "bold"),
+                                 activebackground='#444444',
+                                 selectcolor='red')
+        issn_radio.pack(anchor="w", pady=2)
 
         # Frame for inputting ISBN/ISSN Id and Book ID
-        input_frame = Frame(return_window,
-                            bg='#333333',
-                            highlightbackground="white",
-                            highlightthickness=2, )
-        input_frame.pack(pady = 10, padx = 10, anchor = "center")
+        input_frame = Frame(return_window, bg='#333333', highlightbackground="white",
+                            highlightthickness=2)
+        input_frame.pack(pady=20, padx=20)
+
+        # Create title for input section
+        input_title = Label(input_frame, text="Input ID", bg='#333333', fg='white', font=("Arial", 18))
+        input_title.grid(row=0, columnspan=2, padx=10, pady=5)
+
+        # Labels and Entry widgets for ISBN/ISSN Id and Book ID
+        isbn_issn_id_label = Label(input_frame,
+                                   text="ISBN/ISSN ID:",
+                                   bg='#333333',
+                                   fg='white',
+                                   font=("Arial", 12, "bold"))
+        isbn_issn_id_label.grid(row=1, column=0, padx=5, pady=5)
+        isbn_issn_id_entry = Entry(input_frame, font=("Arial", 12), bg='white', fg='black')
+        isbn_issn_id_entry.grid(row=1, column=1, padx=5, pady=5)
+
+        book_id_label = Label(input_frame,
+                              text="Book ID:",
+                              bg='#333333',
+                              fg='white',
+                              font=("Arial", 12, "bold"))
+        book_id_label.grid(row=2, column=0, padx=5, pady=5)
+        book_id_entry = Entry(input_frame, font=("Arial", 12), bg='white', fg='black')
+        book_id_entry.grid(row=2, column=1, padx=5, pady=5)
+
+        # Create the "CONFIRM" button to process the return action
+        confirm_button = Button(input_frame,
+                                text="CONFIRM",
+                                bg='red',
+                                fg='#FFFFFF',
+                                font=("Arial", 12),
+                                width=10,
+                                height=1)
+        confirm_button.grid(row=3, column=0, padx=5, pady=10)
+
+        # Create the "CANCEL" button to cancel the return action
+        cancel_button = Button(input_frame,
+                               text="CANCEL",
+                               bg='red',
+                               fg='#FFFFFF',
+                               font=("Arial", 12),
+                               width=10,
+                               height=1,
+                               command=lambda: close_windows(return_window, student_window))
+        cancel_button.grid(row=3, column=1, padx=5, pady=10)
 
         return_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(return_window, student_window))
 
