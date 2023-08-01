@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import sqlite3
+from datetime import datetime
 
 def create_middle_frame():
     def open_student_window():
@@ -112,17 +113,6 @@ def create_middle_frame():
                 # Show an error message if any field is empty
                 messagebox.showerror("Error", "Please fill in all the fields.")
 
-            # Create a receipt window
-            receipt_window = Toplevel(borrow_window)
-            receipt_window.title("Checkout Receipt")
-            receipt_window.geometry('400x300')
-            receipt_window.configure(bg='#333333')
-
-            receipt_label = Label(receipt_window, text="Checkout Receipt",
-                                  bg='#333333',
-                                  fg='white',
-                                  font=("Arial", 16, "bold"))
-            receipt_label.pack()
 
         student_window.withdraw()  # Hide the student_window
         borrow_window = Toplevel(student_window)

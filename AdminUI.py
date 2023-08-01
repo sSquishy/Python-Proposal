@@ -310,6 +310,18 @@ def show_add_literature_window():
         if not validate_integer(copies_entry):
             messagebox.showerror("Error", "Invalid input! Please enter a non-negative integer for No. Of Copies.")
 
+        # Check if the literature_id (ISBN/ISSN ID) is provided
+        literature_id = issn_isbn_ID_entry.get()
+        if not literature_id:
+                messagebox.showerror("Error", "ISBN/ISSN ID cannot be blank.")
+                return
+
+        # Check if the literature_title is provided
+        literature_title = title_entry.get()
+        if not literature_title:
+            messagebox.showerror("Error", "Literature Title cannot be blank.")
+            return
+
     copies_entry.bind("<FocusOut>", lambda event: validate_copies())
 
     date_label = tk.Label(literature_info_frame, text="Date Published")
@@ -348,12 +360,14 @@ def show_add_literature_window():
     last_name_entry.pack()
 
     def confirm_literature():
+        literature_type = literature_type_var.get()
+        literature_id = issn_isbn_ID_entry.get()
+        literature_title = title_entry.get()
+        literature_date_published = date_entry.get()
+        num_copies = int(copies_entry.get())
+
         if validate_integer(copies_entry):
-            literature_type = literature_type_var.get()
-            literature_id = issn_isbn_ID_entry.get()
-            literature_title = title_entry.get()
-            literature_date_published = date_entry.get()
-            num_copies = int(copies_entry.get())
+
 
             # Perform necessary actions with the literature information
             insert_literature(literature_type, literature_id, literature_title, literature_date_published, num_copies)
@@ -366,9 +380,14 @@ def show_add_literature_window():
             first_name = first_name_entry.get()
             last_name = last_name_entry.get()
 
+            # If first name or last name is blank, set them to "Unspecified"
+            if not first_name:
+                first_name = "No data"
+            if not last_name:
+                last_name = "No Data"
+
             # Perform necessary actions with the author information
             insert_author(book_id, first_name, last_name, gender)
-
         else:
             messagebox.showerror("Error", "Invalid input! Please enter a non-negative integer for No. Of Copies.")
 
