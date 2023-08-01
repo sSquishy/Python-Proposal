@@ -1,8 +1,14 @@
 from tkinter import *
 from tkinter import messagebox
+import sqlite3
+
+
+#connect to sqlite database
+conn = sqlite3.connect('northwind.db')
+print("Opened database successfully")
 
 student_window = None  # Global variable to store the student_window
-checkout_list = []
+
 def create_middle_frame():
 
     def open_admin_window():

@@ -1,27 +1,57 @@
-def get_next_book_id():
-    # Function to get the next book ID by reading the last used book ID from a file and incrementing it
+import sqlite3
+
+def create_connection(database_name):
     try:
-        with open("book_id.txt", "r") as file:
-            last_book_id = int(file.read())
-    except FileNotFoundError:
-        # If the file is not found (i.e., it's the first time running the program), start with 1
-        last_book_id = 0
+        conn = sqlite3.connect('testt.db')
+        return conn
+    except sqlite3.Error as e:
+        print(e)
+    return None
 
-    next_book_id = last_book_id + 1
+def create_table(conn):
+    try:
+        create_table_query = '''
+        CREATE TABLE IF NOT EXISTS books (
+            id INTEGER PRIMARY KEY,
+            title TEXT NOT NULL,
+            author TEXT NOT NULL,
+            published_date TEXT
+        )
+        '''
+        cursor = conn.cursor()
+        cursor.execute(create_table_query)
+        conn.commit()
+        print("Table created successfully.")
+    except sqlite3.Error as e:
+        print(e)
 
-    # Save the next book ID to the file for future use
-    with open("book_id.txt", "w") as file:
-        file.write(str(next_book_id))
-
-    return next_book_id
-
+def insert_data(conn, title, author, published_date):
+    try:
+        insert_data_query = '''
+        INSERT INTO books (title, author, published_date)
+        VALUES (?, ?, ?)
+        '''
+        cursor = conn.cursor()
+        cursor.execute(insert_data_query, (title, author, published_date))
+        conn.commit()
+        print("Data inserted successfully.")
+    except sqlite3.Error as e:
+        print(e)
 
 def main():
-    while True:
-        input("Press Enter to input a new book:")
-        book_id = get_next_book_id()
-        print("Book ID:", book_id)
+    database_name = "library.db"
+    conn = create_connection(database_name)
+    if conn is not None:
+        create_table(conn)
 
+        print("Enter book details:")
+        title = input("Title: ")
+        author = input("Author: ")
+        published_date = input("Published Date: ")
+
+        insert_data(conn, title, author, published_date)
+
+        conn.close()
 
 if __name__ == "__main__":
     main()
