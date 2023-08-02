@@ -30,7 +30,7 @@ def create_main_window():
     full_name_entry.grid(row=0, column=1, padx=5, pady=5)
 
     # Input for Student ID
-    student_id_label = tk.Label(input_frame, text="Student ID:")
+    student_id_label = tk.Label(input_frame, text="Admin ID:")
     student_id_label.grid(row=1, column=0, padx=5, pady=5)
 
     global student_id_entry
@@ -327,32 +327,51 @@ def show_add_literature_window():
         literature_id = issn_isbn_ID_entry.get()
         literature_title = title_entry.get()
         literature_date_published = date_entry.get()
-        num_copies = int(copies_entry.get())
+        num_copies = copies_entry.get()
 
-        if validate_integer(copies_entry):
+        # Check if literature type is blank
+        if not literature_type:
+            messagebox.showerror("Error", "Please choose a literature type.")
+            return
 
+        # Check if ID is blank
+        elif not literature_id:
+            messagebox.showerror("Error", "Please input an ID.")
+            return
 
-            # Perform necessary actions with the literature information
-            insert_literature(literature_type, literature_id, literature_title, literature_date_published, num_copies)
+        # Check if title is blank
+        elif not literature_title:
+            messagebox.showerror("Error", "Please input a title.")
+            return
 
-            # Fetch the BookID primary key after inserting the literature
-            book_id = get_book_id(literature_id)
-
-            # After inserting literature, also insert the author information
-            gender = gender_type_var.get()
-            first_name = first_name_entry.get()
-            last_name = last_name_entry.get()
-
-            # If first name or last name is blank, set them to "Unspecified"
-            if not first_name:
-                first_name = "No data"
-            if not last_name:
-                last_name = "No Data"
-
-            # Perform necessary actions with the author information
-            insert_author(book_id, first_name, last_name, gender)
-        else:
+        # Check if the number of copies is a non-negative integer
+        if not num_copies.isdigit() or int(num_copies) < 0:
             messagebox.showerror("Error", "Invalid input! Please enter a non-negative integer for No. Of Copies.")
+            return
+
+        # If the published date is not provided, set it to None
+        if not literature_date_published:
+            literature_date_published = None
+
+        # Perform necessary actions with the literature information
+        insert_literature(literature_type, literature_id, literature_title, literature_date_published, int(num_copies))
+
+        # Fetch the BookID primary key after inserting the literature
+        book_id = get_book_id(literature_id)
+
+        # After inserting literature, also insert the author information
+        gender = gender_type_var.get()
+        first_name = first_name_entry.get()
+        last_name = last_name_entry.get()
+
+        # If first name or last name is blank, set them to "Unspecified"
+        if not first_name:
+            first_name = "Unspecified"
+        if not last_name:
+            last_name = "Unspecified"
+
+        # Perform necessary actions with the author information
+        insert_author(book_id, first_name, last_name, gender)
 
     confirm_button = tk.Button(add_literature_window, text="Confirm", command=confirm_literature)
     confirm_button.grid(row=3, column=1, padx=10, pady=10)
@@ -414,10 +433,32 @@ def show_remove_literature_window():
         title = book_name_entry.get()
         isbn_issn_id = isbn_issn_entry.get()
 
+        # Check if all inputs are blank
+        if not title.strip() and not isbn_issn_id.strip() and not literature_type_var.get():
+            messagebox.showerror("Error", "Please enter the Title and ISBN/ISSN ID and Choose Literature type.")
+            return
+
+        # Check if Literature type is not chosen but it has data Title and ID
+        if not literature_type_var.get() and title.strip() and isbn_issn_id.strip():
+            messagebox.showerror("Error", "Please choose a literature type.")
+            return
+
+        # Check if Title is blank but it has literature type and ID
+        if literature_type_var.get() and not title.strip() and isbn_issn_id.strip():
+            messagebox.showerror("Error", "Please fill in the Title to be removed.")
+            return
+
+        # Check if ID is blank but it has literature type and Title
+        if literature_type_var.get() and title.strip() and not isbn_issn_id.strip():
+            messagebox.showerror("Error", "Please fill in the ISBN/ISSN ID to be removed.")
+            return
+
         # Validate inputs
         if not title.strip() or not validate_integer(isbn_issn_entry):
             messagebox.showerror("Error", "Invalid input! Please enter a valid Title and ISBN/ISSN ID.")
             return
+
+
 
         try:
             conn = sqlite3.connect("sample.db")
