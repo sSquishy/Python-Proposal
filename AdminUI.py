@@ -366,9 +366,9 @@ def show_add_literature_window():
 
         # If first name or last name is blank, set them to "Unspecified"
         if not first_name:
-            first_name = "Unspecified"
+            first_name = "None"
         if not last_name:
-            last_name = "Unspecified"
+            last_name = " "
 
         # Perform necessary actions with the author information
         insert_author(book_id, first_name, last_name, gender)
