@@ -9,7 +9,7 @@ def create_middle_frame():
         root.withdraw()
         student_window = Toplevel(root)
         student_window.title("Student Window")
-        student_window.geometry('500x800')
+        student_window.geometry('300x400')
         student_window.configure(bg='#333333')
 
         # Center the buttons horizontally and vertically in the window
@@ -24,9 +24,9 @@ def create_middle_frame():
                               text="BORROW BOOK",
                               bg = 'red',
                               fg = '#FFFFFF',
-                              font = ("Arial", 16, "bold"),
-                              width = 20,
-                              height = 7,
+                              font = ("Arial", 11, "bold"),
+                              width = 15,
+                              height = 2,
                               anchor = "center",
                               command = open_borrow_window)
         BORROWbutton.grid(row=0, column=0, padx=5, pady=5)
@@ -36,23 +36,23 @@ def create_middle_frame():
                               text = "RETURN BOOK",
                               bg = 'red',
                               fg = '#FFFFFF',
-                              font = ("Arial", 16, "bold"),
-                              width = 20,
-                              height = 7,
+                              font = ("Arial", 11, "bold"),
+                              width = 15,
+                              height = 2,
                               anchor = "center",
                               command=open_return_window)
         RETURNbutton.grid(row=1, column=0, padx=5, pady=5)
 
-        # Create the "EXIT" button and associate it with the close_windows function
+        # Create the "EXIT" button to return to the login screen
         EXITbutton = Button(frame_buttons,
-                            text = "EXIT",
-                            bg = 'red',
-                            fg = '#FFFFFF',
-                            font = ("Arial", 16, "bold"),
-                            width = 20,
-                            height = 7,
-                            anchor = "center",
-                            command = lambda: close_windows(student_window))
+                            text="EXIT",
+                            bg='red',
+                            fg='#FFFFFF',
+                            font=("Arial", 11, "bold"),
+                            width=15,
+                            height=2,
+                            anchor="center",
+                            command= root.destroy)
         EXITbutton.grid(row=2, column=0, padx=5, pady=5)
 
         student_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(student_window))
@@ -470,34 +470,64 @@ def create_middle_frame():
 
         return_window.protocol('WM_DELETE_WINDOW', lambda: close_windows(return_window, student_window))
 
-    middle_frame = Frame(root,
-                         bg='#333333',
-                         width=500,
-                         height=150)
-    middle_frame.grid(row=0, column=0, padx=50, pady=200)  # Center the middle_frame in the main window
+    def confirm_login():
+        # Retrieve the entered username and password
+        entered_username = username_entry.get()
+        entered_password = password_entry.get()
+
+        # Define the correct username and password
+        correct_username = "batts"
+        correct_password = "00"
+
+        # Check if the entered username and password are not blank
+        if not entered_username or not entered_password:
+            messagebox.showerror("Error", "Username and Password cannot be blank.")
+            return
+
+        # Check if the entered username and password match the correct ones
+        if entered_username == correct_username and entered_password == correct_password:
+            messagebox.showinfo("Success", "Login successful!")
+            # Call the function to open the student window
+            open_student_window()
+        else:
+            messagebox.showerror("Error", "Login failed. Incorrect username or password.")
+
+    # Assuming 'root' is your main window, as mentioned in the original code
+    middle_frame = Frame(root, bg='#333333', width=500, height=150)
+    middle_frame.grid(row=0, column=0, padx=10, pady=10)
 
     # Configure row and column weights to center the middle_frame vertically and horizontally
     root.grid_rowconfigure(0, weight=1)
     root.grid_columnconfigure(0, weight=1)
 
+    # Username label and entry
+    username_label = Label(middle_frame, text="Username:", bg='#333333', fg='white')
+    username_label.grid(row=0, column=0, padx=10, pady=10)
+    username_entry = Entry(middle_frame)
+    username_entry.grid(row=0, column=1, padx=10, pady=10)
 
-    # Create the "Student" button and associate it with the open_student_window function
-    frame_student = Frame(middle_frame, bg='#333333')
-    frame_student.pack(expand=True, pady=10)
-    button_student = Button(frame_student,
-                            text="Student",
-                            bg='red',
-                            fg='#FFFFFF',
-                            font=("Arial", 16, "bold"),
-                            width=10,
-                            height=2,
-                            command=open_student_window)
-    button_student.pack(expand=True)
+    # Password label and entry
+    password_label = Label(middle_frame, text="Password:", bg='#333333', fg='white')
+    password_label.grid(row=1, column=0, padx=10, pady=10)
+    password_entry = Entry(middle_frame, show="*")  # Show * to hide password characters
+    password_entry.grid(row=1, column=1, padx=10, pady=10)
+
+    # Login button
+    login_button = Button(middle_frame,
+                          text="Login",
+                          bg='red',
+                          fg='#FFFFFF',
+                          font=("Arial", 16, "bold"),
+                          width=10,
+                          height=2,
+                          command=confirm_login)
+    login_button.grid(row=3, column=0, columnspan=25, padx=10, pady=10)
+
 
 # Create the main window
 root = Tk()
 root.title("Library Check-out")
-root.geometry('500x800')
+root.geometry('600x500')
 root.configure(bg='#333333')
 
 

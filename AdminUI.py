@@ -11,43 +11,6 @@ def validate_integer(entry):
     except ValueError:
         return False
 
-
-def create_main_window():
-    global window
-    window = tk.Tk()
-    window.title("Library System")
-    window.geometry("500x200")
-
-    # LabelFrame to group Full Name, Student ID, and Confirm Button
-    input_frame = tk.LabelFrame(window, text="Personal Information")
-    input_frame.pack(padx=10, pady=10)
-
-    # Input for Full Name
-    full_name_label = tk.Label(input_frame, text="Full Name:")
-    full_name_label.grid(row=0, column=0, padx=5, pady=5)
-
-    global full_name_entry
-    full_name_entry = tk.Entry(input_frame)
-    full_name_entry.grid(row=0, column=1, padx=5, pady=5)
-
-    # Input for Student ID
-    student_id_label = tk.Label(input_frame, text="Student ID:")
-    student_id_label.grid(row=1, column=0, padx=5, pady=5)
-
-    global student_id_entry
-    student_id_entry = tk.Entry(input_frame)
-    student_id_entry.grid(row=1, column=1, padx=5, pady=5)
-
-    # Confirm Button
-    confirm_button = tk.Button(input_frame, text="Confirm", command=on_confirm_button_click)
-    confirm_button.grid(row=2, column=0, columnspan=2, padx=5, pady=5)
-
-    # Header Label to display the Full Name
-    global header_label
-    header_label = tk.Label(window, text="", font=("Helvetica", 16, "bold"))
-    header_label.pack(padx=10, pady=10)
-
-
 def create_main_window():
     global window
     window = tk.Tk()
