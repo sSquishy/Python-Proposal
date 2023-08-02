@@ -138,7 +138,7 @@ def show_library_collection():
         # Create a new window for the Library Collection Listbox
         library_collection_window = tk.Tk()
         library_collection_window.title("Library Collection")
-        library_collection_window.geometry("800x600")
+        library_collection_window.geometry("1100x300")
 
         # Create a Multi-column Treeview for Library Collection Listbox
         library_collection_listbox = ttk.Treeview(library_collection_window, columns=(
