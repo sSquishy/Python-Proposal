@@ -15,7 +15,7 @@ def create_main_window():
     global window
     window = tk.Tk()
     window.title("Library System")
-    window.geometry("500x200")
+    window.geometry("300x150")
 
     # LabelFrame to group Full Name, Student ID, and Confirm Button
     input_frame = tk.LabelFrame(window, text="Personal Information")
@@ -64,8 +64,8 @@ def on_confirm_button_click():
         # Display Full Name as a header
         header_label.config(text=f"Welcome, {full_name}!")
 
-        # Here you can perform any necessary actions with the entered student ID
-        # For example, you can check if the student ID exists in the database, etc.
+        # Show a successful login message
+        messagebox.showinfo("Success", "Login Successful!")
 
         # Proceed to admin options
         show_admin_options()
@@ -229,7 +229,7 @@ def show_add_literature_window():
 
     add_literature_window = tk.Tk()
     add_literature_window.title("Add Literature")
-    add_literature_window.geometry("320x680")
+    add_literature_window.geometry("320x440")
 
     literature_types_frame = tk.LabelFrame(add_literature_window, text="Select Literature Types")
     literature_types_frame.grid(row=0, column=1, columnspan=5,padx=15, pady=15)
@@ -366,12 +366,22 @@ def show_add_literature_window():
 
         # If first name or last name is blank, set them to "Unspecified"
         if not first_name:
-            first_name = "None"
+            first_name = "   "
         if not last_name:
-            last_name = " "
+            last_name = "    "
 
         # Perform necessary actions with the author information
         insert_author(book_id, first_name, last_name, gender)
+
+        # Reset all the input fields after confirming the literature
+        literature_type_var.set("")
+        issn_isbn_ID_entry.delete(0, "end")
+        title_entry.delete(0, "end")
+        date_entry.delete(0, "end")
+        copies_entry.delete(0, "end")
+        gender_type_var.set("MALE")  # Set gender to "MALE" by default
+        first_name_entry.delete(0, "end")
+        last_name_entry.delete(0, "end")
 
     confirm_button = tk.Button(add_literature_window, text="Confirm", command=confirm_literature)
     confirm_button.grid(row=3, column=1, padx=10, pady=10)
@@ -382,7 +392,6 @@ def show_add_literature_window():
 
     cancel_button = tk.Button(add_literature_window, text="Cancel", command=go_back_to_admin)
     cancel_button.grid(row=3, column=2, padx=10, pady=10)
-
     add_literature_window.mainloop()
 
 
@@ -391,7 +400,7 @@ def show_remove_literature_window():
 
     remove_lit_window = tk.Tk()
     remove_lit_window.title("Remove Book")
-    remove_lit_window.geometry("400x300")
+    remove_lit_window.geometry("300x300")
 
     # Frame for selecting the literature type (ISBN or ISSN)
     literature_type_frame = tk.LabelFrame(remove_lit_window, text="Remove Literature")
@@ -497,12 +506,12 @@ def show_remove_literature_window():
     confirm_button.pack(side=tk.LEFT, padx=10, pady=10)
 
     # Function to go back to the admin options window
-    def go_back_to_admin():
+    def go_back_to_adminn():
         remove_lit_window.destroy()  # Close the "Remove Literature" window
         show_admin_options()  # Show the admin options window again
 
     # Button to cancel and go back to admin options
-    cancel_button = tk.Button(button_frame, text="Cancel", command=go_back_to_admin)
+    cancel_button = tk.Button(button_frame, text="Cancel", command=go_back_to_adminn)
     cancel_button.pack(side=tk.LEFT, padx=10, pady=10)
 
     remove_lit_window.mainloop()
@@ -512,5 +521,7 @@ def admin_window_quit():
     create_main_window()
 
 
+
 create_main_window()
+
 window.mainloop()
