@@ -186,7 +186,6 @@ def insert_literature(literature_type, id, title, date_published, copies):
     except Exception as e:
         messagebox.showerror("Error", f"Failed to insert literature: {str(e)}")
 
-
 def insert_author(book_id, first_name, last_name, gender):
     try:
         # Connect to the database (create it if it doesn't exist)
