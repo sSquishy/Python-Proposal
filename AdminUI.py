@@ -94,7 +94,6 @@ def fetch_library_collection_data():
         print(f"Error: {str(e)}")
         return None
 
-
 def show_admin_options():
     global admin_window
     admin_window = tk.Tk()
